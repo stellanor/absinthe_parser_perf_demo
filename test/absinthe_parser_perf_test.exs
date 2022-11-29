@@ -11,9 +11,10 @@ defmodule AbsintheParserPerfTest do
     {:ok, %{data: %{"placeholder" => "Hello world"}}} = result
   end
 
-  test "5k bogus fields (deep nesting)" do
-    {time, result} = :timer.tc(&AbsintheParserPerf.fivek_deep_query/0)
-    IO.puts("5k deep query time was #{time / 1_000_000} sec")
+  test "time exactly 15000 tokens" do
+    query = AbsintheParserPerf.generate_exactly_15000_tokens_query()
+    {time, result} = :timer.tc(&Absinthe.run/2, [query, Schema])
+    IO.puts("exactly 15k tokens query time was #{time / 1_000_000} sec")
     {:ok, %{errors: errors}} = result
     assert Enum.find(errors, &(&1.message =~ "Cannot query field"))
   end

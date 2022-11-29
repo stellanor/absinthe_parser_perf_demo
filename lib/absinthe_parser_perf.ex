@@ -31,9 +31,8 @@ defmodule AbsintheParserPerf do
     |> Absinthe.run(Schema)
   end
 
-  def fivek_deep_query() do
-    QueryChaos.field_names(5000)
-    |> QueryChaos.deep_query()
-    |> Absinthe.run(Schema)
+  def generate_exactly_15000_tokens_query do
+    QueryChaos.field_names(14_996)
+    |> QueryChaos.shallow_query()
   end
 end
